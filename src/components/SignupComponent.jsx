@@ -8,9 +8,10 @@ import {
   Typography,
   Link,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import CardComponent from "./CardComponent"; // Adjust the import path as needed
+import CardComponent from "./CardComponent";
 import PeopleIcon from "@mui/icons-material/People";
 
 const SignupComponent = () => {
@@ -20,6 +21,7 @@ const SignupComponent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const theme = useTheme(); // Access the theme
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -55,117 +57,142 @@ const SignupComponent = () => {
         justifyContent: "center",
         height: "100vh",
         width: "100vw",
+        background: `linear-gradient(to right, ${theme.palette.background.default}, ${theme.palette.background.paper})`,
       }}
     >
       <CardComponent opacity={0.85}>
-        <Box 
-        sx={{
-          width:'100%' // Ensure the form takes full width of the card
-        }}>
+        <Box
+          component="form"
+          onSubmit={handleSignup}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            width: "clamp(250px, 25vw, 800px)",
+            mx: "auto",
+            p: 3,
+          }}
+        >
           <Box
-            component="form"
-            onSubmit={handleSignup}
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "1rem",
-              width: "clamp(250px, 25vw, 800px)", 
-              mx: "auto",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Box
+            <IconButton
+              color="secondary"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: "50%",
+                padding: 1,
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.dark,
+                },
               }}
             >
-              <IconButton
-                color="secondary"
-                sx={{
-                  backgroundColor: "black",
-                  borderRadius: "50%",
-                  padding: "10px",
-                  "&:hover": {
-                    backgroundColor: "black",
-                  },
-                }}
-              >
-                <PeopleIcon />
-              </IconButton>
-              <Typography
-                variant="h4" // Adjusted for better fit on smaller screens
-                sx={{
-                  textAlign: "center",
-                  marginBottom: "1rem",
-                  marginTop: "0.5rem",
-                }}
-              >
-                Signup
-              </Typography>
-            </Box>
-
-            {error && (
-              <Typography color="error" sx={{ mb: 2 }}>
-                {error}
-              </Typography>
-            )}
-
-            <TextField
-              label="Username"
-              variant="outlined"
-              margin="normal"
-              required
-              value={username}
-              onChange={(e) => setUsernameInput(e.target.value)}
-              fullWidth
-            />
-
-            <TextField
-              label="Email"
-              type="email"
-              variant="outlined"
-              margin="normal"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-            />
-
-            <TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              margin="normal"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fullWidth
-            />
-
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
+              <PeopleIcon />
+            </IconButton>
+            <Typography
+              variant="h4" // Adjusted to match LoginComponent
+              sx={{
+                textAlign: "center",
+                marginBottom: 2,
+                marginTop: 1,
+                color: theme.palette.text.primary,
+              }}
             >
               Signup
-            </Button>
-
-            <Link
-              component={RouterLink}
-              to="/login"
-              sx={{
-                mt: 2,
-                textDecoration: "none",
-                color: "primary.main",
-                alignSelf: "flex-end",
-              }}
-            >
-              Already have an account? Login here.
-            </Link>
+            </Typography>
           </Box>
+
+          {error && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {error}
+            </Typography>
+          )}
+
+          <TextField
+            label="Username"
+            variant="outlined"
+            margin="normal"
+            required
+            value={username}
+            onChange={(e) => setUsernameInput(e.target.value)}
+            fullWidth
+            sx={{ 
+              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
+              '& .MuiOutlinedInput-root': { 
+                '& fieldset': { borderColor: theme.palette.text.secondary },
+                '&:hover fieldset': { borderColor: theme.palette.primary.main },
+                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+              },
+              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+            }}
+          />
+
+          <TextField
+            label="Email"
+            type="email"
+            variant="outlined"
+            margin="normal"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            sx={{ 
+              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
+              '& .MuiOutlinedInput-root': { 
+                '& fieldset': { borderColor: theme.palette.text.secondary },
+                '&:hover fieldset': { borderColor: theme.palette.primary.main },
+                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+              },
+              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+            }}
+          />
+
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            margin="normal"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            sx={{ 
+              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
+              '& .MuiOutlinedInput-root': { 
+                '& fieldset': { borderColor: theme.palette.text.secondary },
+                '&:hover fieldset': { borderColor: theme.palette.primary.main },
+                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+              },
+              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+            }}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Signup
+          </Button>
+
+          <Link
+            component={RouterLink}
+            to="/login"
+            sx={{
+              mt: 2,
+              textDecoration: "none",
+              color: theme.palette.primary.main,
+              alignSelf: "flex-end", // Align to the right for consistency
+            }}
+          >
+            Already have an account? Login here.
+          </Link>
         </Box>
       </CardComponent>
     </Box>

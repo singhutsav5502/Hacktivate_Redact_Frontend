@@ -26,7 +26,12 @@ const Sidebar = () => {
         <IconButton
           color="primary"
           onClick={handleToggle}
-          sx={{ position: "absolute", top: 16, left: 16, zIndex: 1300 }}
+          sx={{
+            position: "absolute",
+            top: theme.spacing(2),
+            left: theme.spacing(2),
+            zIndex: theme.zIndex.drawer + 1,
+          }}
         >
           <MenuIcon />
         </IconButton>
@@ -44,6 +49,9 @@ const Sidebar = () => {
             position: isMobile ? "relative" : "fixed", // Fixed on larger screens
             top: 0,
             left: 0,
+            borderRadius: 0, // Remove border radius
+            bgcolor: theme.palette.background.paper, // Use theme's background color
+            color: theme.palette.text.primary, // Use theme's text color
           },
         }}
         variant={isMobile ? "temporary" : "persistent"} // Temporary for mobile, persistent for larger screens
@@ -57,7 +65,18 @@ const Sidebar = () => {
               underline="none"
               width="100%"
             >
-              <ListItemButton>
+              <ListItemButton
+                sx={{
+                  "&.Mui-selected": {
+                    bgcolor: theme.palette.primary.light, // Use theme's primary color for selected state
+                    color: theme.palette.primary.contrastText,
+                  },
+                  "&:hover": {
+                    bgcolor: theme.palette.primary.main, // Use theme's primary color for hover state
+                    color: theme.palette.primary.contrastText,
+                  },
+                }}
+              >
                 <ListItemText primary="Upload"/>
               </ListItemButton>
             </Link>
@@ -71,7 +90,18 @@ const Sidebar = () => {
               underline="none"
               width="100%"
             >
-              <ListItemButton>
+              <ListItemButton
+                sx={{
+                  "&.Mui-selected": {
+                    bgcolor: theme.palette.primary.light, // Use theme's primary color for selected state
+                    color: theme.palette.primary.contrastText,
+                  },
+                  "&:hover": {
+                    bgcolor: theme.palette.primary.main, // Use theme's primary color for hover state
+                    color: theme.palette.primary.contrastText,
+                  },
+                }}
+              >
                 <ListItemText primary="View Redacted Files"/>
               </ListItemButton>
             </Link>

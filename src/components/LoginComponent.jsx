@@ -8,6 +8,7 @@ import {
   Typography,
   Link,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import CardComponent from "./CardComponent";
@@ -19,6 +20,7 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const theme = useTheme(); // Access the theme
 
   useEffect(() => {
     dispatch(clearAll());
@@ -58,7 +60,7 @@ const LoginComponent = () => {
         justifyContent: "center",
         height: "100vh",
         width: "100vw",
-        background: "linear-gradient(to right, #f8f9fa, #e9ecef)",
+        background: `linear-gradient(to right, ${theme.palette.background.default}, ${theme.palette.background.paper})`,
       }}
     >
       <CardComponent opacity={0.85}>
@@ -68,10 +70,10 @@ const LoginComponent = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: "1rem",
+            gap: 2,
             width: "clamp(250px, 25vw, 800px)", // Adjust width to match the SignupComponent
             mx: "auto",
-            p: 2,
+            p: 3,
           }}
         >
           <Box
@@ -85,11 +87,11 @@ const LoginComponent = () => {
             <IconButton
               color="secondary"
               sx={{
-                backgroundColor: "black",
+                backgroundColor: theme.palette.primary.main,
                 borderRadius: "50%",
-                padding: "10px",
+                padding: 1,
                 "&:hover": {
-                  backgroundColor: "black",
+                  backgroundColor: theme.palette.primary.dark,
                 },
               }}
             >
@@ -99,8 +101,9 @@ const LoginComponent = () => {
               variant="h4" // Adjusted to match SignupComponent
               sx={{
                 textAlign: "center",
-                marginBottom: "1rem",
-                marginTop: "0.5rem",
+                marginBottom: 2,
+                marginTop: 1,
+                color: theme.palette.text.primary,
               }}
             >
               Login
@@ -121,6 +124,15 @@ const LoginComponent = () => {
             value={username}
             onChange={(e) => setUsernameInput(e.target.value)}
             fullWidth
+            sx={{ 
+              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
+              '& .MuiOutlinedInput-root': { 
+                '& fieldset': { borderColor: theme.palette.text.secondary },
+                '&:hover fieldset': { borderColor: theme.palette.primary.main },
+                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+              },
+              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+            }}
           />
 
           <TextField
@@ -132,6 +144,15 @@ const LoginComponent = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
+            sx={{ 
+              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
+              '& .MuiOutlinedInput-root': { 
+                '& fieldset': { borderColor: theme.palette.text.secondary },
+                '&:hover fieldset': { borderColor: theme.palette.primary.main },
+                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+              },
+              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+            }}
           />
 
           <Button
@@ -149,7 +170,7 @@ const LoginComponent = () => {
             sx={{
               mt: 2,
               textDecoration: "none",
-              color: "primary.main",
+              color: theme.palette.primary.main,
               alignSelf: "flex-end", // Align to the right for consistency
             }}
           >

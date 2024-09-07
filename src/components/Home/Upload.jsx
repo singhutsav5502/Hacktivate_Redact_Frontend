@@ -134,10 +134,14 @@ const UploadComponent = () => {
 
   return (
     <Box
-      sx={{ display: "flex", backgroundColor: theme.palette.background.main }}
+      sx={{
+        display: "flex",
+        backgroundColor: theme.palette.background.default,
+        minHeight: "100vh",
+      }}
     >
       <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, height: "100vh" }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Stack
           direction={{ xs: "column", md: "row" }} // Responsive direction
           spacing={2}
@@ -165,9 +169,9 @@ const UploadComponent = () => {
                 type="file"
                 onChange={handleFileChange}
                 style={{
-                  padding: "8px",
+                  padding: theme.spacing(1),
                   border: `1px solid ${theme.palette.divider}`,
-                  borderRadius: "4px",
+                  borderRadius: theme.shape.borderRadius,
                   width: "80%",
                 }}
               />
@@ -182,7 +186,7 @@ const UploadComponent = () => {
                     sx={{
                       width: "80%",
                       mx: "auto",
-                      backgroundColor: theme.palette.secondary.main,
+                      bgcolor: theme.palette.secondary.light,
                     }}
                   />
                   <Typography
@@ -217,8 +221,8 @@ const UploadComponent = () => {
               alignItems="center"
               sx={{
                 bgcolor: theme.palette.background.paper,
-                padding: "1rem",
-                borderRadius: "8px",
+                padding: theme.spacing(2),
+                // borderRadius: 2,
               }}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -261,8 +265,8 @@ const UploadComponent = () => {
                 alignItems="center"
                 sx={{
                   bgcolor: theme.palette.background.paper,
-                  padding: "1rem",
-                  borderRadius: "8px",
+                  padding: theme.spacing(2),
+                  // borderRadius: 2,
                 }}
               >
                 <Stack direction="row" alignItems="center" spacing={1}>
