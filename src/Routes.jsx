@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import LoginComponent from "./components/LoginComponent";
 import SignupComponent from "./components/SignupComponent";
-import Home from "./components/Home/Home";
+import UploadComponent from "./components/Home/Upload";
+import ViewFilesComponent from "./components/Home/ViewFilesComponent";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 const AppRoutes = () => (
@@ -30,7 +31,8 @@ const AppRoutes = () => (
           </ThemeProvider>
         }
       />
-      <Route path="/home" element={<Home />} />
+      <Route path="/upload" element={<UploadComponent />} />
+      <Route path="/view-files" element={<ViewFilesComponent />} />
     </Routes>
   </Router>
 );

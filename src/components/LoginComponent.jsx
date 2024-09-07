@@ -44,7 +44,7 @@ const LoginComponent = () => {
       dispatch(setToken(data.access_token));
       dispatch(setUsername(username));
       setError("");
-      navigate("/home");
+      navigate("/upload");
     } catch (error) {
       setError("Login failed: " + error.message);
     }

@@ -41,7 +41,7 @@ const SignupComponent = () => {
       dispatch(setToken(data.access_token));
       dispatch(setUsername(username));
       setError("");
-      navigate("/home");
+      navigate("/upload");
     } catch (error) {
       setError("Signup failed: " + error.message);
     }
