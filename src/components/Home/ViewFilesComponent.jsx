@@ -6,6 +6,8 @@ import {
   CardContent,
   CardMedia,
   IconButton,
+  CssBaseline,
+  useTheme
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +18,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import VideoCameraFrontIcon from "@mui/icons-material/VideoCameraFront";
 import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import Sidebar from "./Sidebar";
-import CssBaseline from "@mui/material/CssBaseline";
+
 const getFileIcon = (fileType) => {
   switch (fileType) {
     case "application/pdf":
@@ -38,7 +40,8 @@ const getFileIcon = (fileType) => {
 const ViewFilesComponent = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState("");
-
+  
+  const theme = useTheme(); // Accessing the current theme
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
 
@@ -74,7 +77,7 @@ const ViewFilesComponent = () => {
   }, [auth.token]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", bgcolor: theme.palette.background.default }}>
       <CssBaseline />
       <Sidebar />
       <Box
@@ -86,7 +89,7 @@ const ViewFilesComponent = () => {
           width: "100%",
         }}
       >
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        <Typography variant="h4" sx={{ mb: 2, color: theme.palette.text.primary }}>
           View Redacted Files
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
@@ -109,86 +112,92 @@ const ViewFilesComponent = () => {
                 width: {
                   xs: "100%",
                   sm: "calc(50% - 8px)",
-                  md: "calc(33.33% - 10.67px)",
+                  md: "calc(33.33% - 10.67px)"
+                },
                   cursor: "pointer",
                   opacity: 0.7,
                   transition: "opacity 0.3s ease-in-out",
                   "&:hover": {
                     opacity: 1,
                   },
-                },
-              }}
-              onClick={() => {
-                window.open(file.cloudinary_url, "_blank");
-              }}
-            >
-              <CardContent
-                sx={{
-                  flex: "1 0 auto",
-                  px: 2,
-                  py: 1,
+                  bgcolor: theme.palette.background.paper,
+                }}
+                onClick={() => {
+                  window.open(file.cloudinary_url, "_blank");
                 }}
               >
-                <Typography
-                  variant="h6"
-                  component="div"
+                <CardContent
                   sx={{
-                    width: "100%", // Adjusted width to allow wrapping
-                    textAlign: "left",
-                    whiteSpace: "normal", // Allows text to wrap
-                    overflow: "hidden", // Handles overflow
-                    textOverflow: "ellipsis", // Adds ellipsis if text overflows (optional)
-                    fontSize: {
-                      xs: "0.75rem", // Smaller font size for extra-small screens
-                      sm: "0.8rem", // Medium font size for small screens and up
-                      md: "1rem", // Larger font size for medium screens and up
-                    },
+                    flex: "1 0 auto",
+                    px: 2,
+                    py: 1,
+                    color: theme.palette.text.primary,
                   }}
                 >
-                  {file.original_filename}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      width: "100%",
+                      textAlign: "left",
+                      whiteSpace: "normal",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      fontSize: {
+                        xs: "0.75rem",
+                        sm: "0.8rem",
+                        md: "1rem",
+                      },
+                      color: theme.palette.text.primary,
+                    }}
+                  >
+                    {file.original_filename}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      fontSize: {
+                        xs: "0.75rem",
+                        sm: "0.875rem",
+                        md: "1rem",
+                      },
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    {new Date(file.created_at).toLocaleString()}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{
+                      fontSize: {
+                        xs: "0.75rem",
+                        sm: "0.875rem",
+                        md: "1rem",
+                      },
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    {file.type.split("/")[1]}
+                  </Typography>
+                </CardContent>
+                <CardMedia
                   sx={{
-                    fontSize: {
-                      xs: "0.75rem", // Smaller font size for extra-small screens
-                      sm: "0.875rem", // Medium font size for small screens and up
-                      md: "1rem", // Larger font size for medium screens and up
-                    },
+                    width: 150,
+                    height: 100,
+                    margin: 0,
+                    padding: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: theme.palette.primary.main,
                   }}
                 >
-                  {new Date(file.created_at).toLocaleString()}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    fontSize: {
-                      xs: "0.75rem", // Smaller font size for extra-small screens
-                      sm: "0.875rem", // Medium font size for small screens and up
-                      md: "1rem", // Larger font size for medium screens and up
-                    },
-                  }}
-                >
-                  {file.type.split("/")[1]}
-                </Typography>
-              </CardContent>
-              <CardMedia
-                sx={{
-                  width: 150,
-                  height: 100,
-                  margin: 0,
-                  padding: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {getFileIcon(file.type)}
-              </CardMedia>
-            </Card>
-          ))}
+                  {getFileIcon(file.type)}
+                </CardMedia>
+              </Card>
+            ))}
         </Box>
       </Box>
     </Box>

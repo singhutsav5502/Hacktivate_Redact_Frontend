@@ -58,7 +58,7 @@ const Sidebar = () => {
               width="100%"
             >
               <ListItemButton>
-                <ListItemText primary="Upload" />
+                <ListItemText primary="Upload"/>
               </ListItemButton>
             </Link>
           </ListItem>
@@ -72,7 +72,7 @@ const Sidebar = () => {
               width="100%"
             >
               <ListItemButton>
-                <ListItemText primary="View Redacted Files" />
+                <ListItemText primary="View Redacted Files"/>
               </ListItemButton>
             </Link>
           </ListItem>
