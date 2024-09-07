@@ -31,8 +31,22 @@ const AppRoutes = () => (
           </ThemeProvider>
         }
       />
-      <Route path="/upload" element={<UploadComponent />} />
-      <Route path="/view-files" element={<ViewFilesComponent />} />
+      <Route
+        path="/upload"
+        element={
+          <ThemeProvider theme={theme}>
+            <UploadComponent />
+          </ThemeProvider>
+        }
+      />
+      <Route
+        path="/view-files"
+        element={
+          <ThemeProvider theme={theme}>
+            <ViewFilesComponent />
+          </ThemeProvider>
+        }
+      />
     </Routes>
   </Router>
 );
