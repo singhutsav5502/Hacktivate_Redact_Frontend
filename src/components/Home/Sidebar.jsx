@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {isMobile && (
+      {isMobile && !open && (
         <IconButton
           color="primary"
           onClick={handleToggle}
