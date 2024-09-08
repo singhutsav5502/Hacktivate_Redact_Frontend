@@ -89,7 +89,7 @@ const ViewFilesComponent = () => {
           width: "100%",
         }}
       >
-        <Typography variant="h4" sx={{ mb: 2, color: theme.palette.text.primary }}>
+        <Typography variant="h4" sx={{ mb: 2, color: theme.palette.primary.main }}>
           View Redacted Files
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
@@ -148,7 +148,7 @@ const ViewFilesComponent = () => {
                         sm: "0.8rem",
                         md: "1rem",
                       },
-                      color: theme.palette.text.primary,
+                      color: theme.palette.primary.main,
                     }}
                   >
                     {file.original_filename}
