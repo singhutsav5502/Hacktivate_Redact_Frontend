@@ -122,7 +122,7 @@ const UploadComponent = () => {
             src={url}
             type="application/pdf"
             style={{
-              width: "clamp(400px , 40vw, 90vw)",
+              width: "clamp(200px , 33vw, 90vw)",
               height: "clamp(500px,45vh,1200px)",
             }}
           />
@@ -143,13 +143,13 @@ const UploadComponent = () => {
       <Sidebar />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Stack
-          direction={{ xs: "column", md: "row" }} // Responsive direction
+          direction={{ xs: "column", md: "column" }} // Responsive direction
           spacing={2}
           sx={{ height: "100%" }}
         >
           <Box
             sx={{
-              width: { xs: "100%", md: "50%" },
+              width: { xs: "100%", md: "100%" },
               p: 3,
               bgcolor: theme.palette.background.light,
               borderRadius: 2,
@@ -210,11 +210,13 @@ const UploadComponent = () => {
             </Stack>
           </Box>
           <Stack
+            direction={{ xs: "column", md: "row" }}
             sx={{
-              maxHeight: "100vh",
-              overflowY: "auto",
-              width: "100%",
+              // maxHeight: "100vh",
+              // overflowY: "auto",
+              width: "80vw",
             }}
+            gap={{xs:2, md:20}}
           >
             {/* Original Preview */}
             <Stack
