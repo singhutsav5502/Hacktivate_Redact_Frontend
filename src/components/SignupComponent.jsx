@@ -187,7 +187,7 @@ const SignupComponent = () => {
             sx={{
               mt: 2,
               textDecoration: "none",
-              color: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
               alignSelf: "flex-end", // Align to the right for consistency
             }}
           >

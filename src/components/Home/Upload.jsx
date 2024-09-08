@@ -136,7 +136,7 @@ const UploadComponent = () => {
     <Box
       sx={{
         display: "flex",
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
         minHeight: "100vh",
       }}
     >
@@ -151,7 +151,7 @@ const UploadComponent = () => {
             sx={{
               width: { xs: "100%", md: "50%" },
               p: 3,
-              bgcolor: theme.palette.background.paper,
+              bgcolor: theme.palette.background.light,
               borderRadius: 2,
               boxShadow: 2,
               textAlign: "center",
@@ -161,7 +161,7 @@ const UploadComponent = () => {
               <Typography
                 variant="h4"
                 gutterBottom
-                color={theme.palette.text.primary}
+                color={theme.palette.text.secondary}
               >
                 Upload File
               </Typography>
@@ -220,13 +220,13 @@ const UploadComponent = () => {
             <Stack
               alignItems="center"
               sx={{
-                bgcolor: theme.palette.background.paper,
+                bgcolor: theme.palette.background.light,
                 padding: theme.spacing(2),
                 // borderRadius: 2,
               }}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
-                <Typography variant="h6" color={theme.palette.text.primary}>
+                <Typography variant="h6" color={theme.palette.text.secondary}>
                   Original Preview
                 </Typography>
                 <IconButton
@@ -270,7 +270,7 @@ const UploadComponent = () => {
                 }}
               >
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="h6" color={theme.palette.text.primary}>
+                  <Typography variant="h6" color={theme.palette.text.secondary}>
                     Redacted Preview
                   </Typography>
                   <IconButton

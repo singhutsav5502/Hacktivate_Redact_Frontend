@@ -5,7 +5,7 @@ let theme = createTheme({
         mode: 'dark',
         primary: {
             main: '#90caf9', // Light blue
-            contrastText: '#000000', // Dark text for readability
+            contrastText: '#666e96', // Dark text for readability
         },
         secondary: {
             main: '#555', // Dark grey
@@ -16,8 +16,8 @@ let theme = createTheme({
             paper: '#424242', // Dark paper
         },
         text: {
-            primary: '#ffffff', // Light text
-            secondary: '#b0b0b0', // Light grey text
+            primary: '#444', 
+            secondary: '#e0e0e0', 
         },
     },
     typography: {
