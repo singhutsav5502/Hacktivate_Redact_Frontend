@@ -179,7 +179,12 @@ const UploadComponent = () => {
                 }}
               >
                 Choose File
-                <input type="file" onChange={handleFileChange} hidden />
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  hidden
+                  accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt"
+                />
               </Button>
 
               {error && (
