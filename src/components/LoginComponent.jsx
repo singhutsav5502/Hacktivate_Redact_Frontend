@@ -124,14 +124,16 @@ const LoginComponent = () => {
             value={username}
             onChange={(e) => setUsernameInput(e.target.value)}
             fullWidth
-            sx={{ 
-              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
-              '& .MuiOutlinedInput-root': { 
-                '& fieldset': { borderColor: theme.palette.text.secondary },
-                '&:hover fieldset': { borderColor: theme.palette.primary.main },
-                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+            sx={{
+              "& .MuiInputLabel-root": { color: theme.palette.text.primary },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": { borderColor: theme.palette.secondary.main },
+                "&:hover fieldset": { borderColor: theme.palette.primary.main },
+                "&.Mui-focused fieldset": {
+                  borderColor: theme.palette.primary.main,
+                },
               },
-              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+              "& .MuiInputBase-input": { color: theme.palette.text.primary },
             }}
           />
 
@@ -144,14 +146,16 @@ const LoginComponent = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
-            sx={{ 
-              '& .MuiInputLabel-root': { color: theme.palette.text.primary },
-              '& .MuiOutlinedInput-root': { 
-                '& fieldset': { borderColor: theme.palette.text.secondary },
-                '&:hover fieldset': { borderColor: theme.palette.primary.main },
-                '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main }
+            sx={{
+              "& .MuiInputLabel-root": { color: theme.palette.text.primary },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": { borderColor: theme.palette.secondary.main },
+                "&:hover fieldset": { borderColor: theme.palette.primary.main },
+                "&.Mui-focused fieldset": {
+                  borderColor: theme.palette.primary.main,
+                },
               },
-              '& .MuiInputBase-input': { color: theme.palette.text.primary }
+              "& .MuiInputBase-input": { color: theme.palette.text.primary },
             }}
           />
 
@@ -174,7 +178,7 @@ const LoginComponent = () => {
               alignSelf: "flex-end", // Align to the right for consistency
             }}
           >
-            Don't have an account? Sign up here.
+            <Typography variant="body1"> Don't have an account? Sign up here.</Typography>
           </Link>
         </Box>
       </CardComponent>
