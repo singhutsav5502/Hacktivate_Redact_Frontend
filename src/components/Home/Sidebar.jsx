@@ -50,7 +50,7 @@ const Sidebar = () => {
             top: 0,
             left: 0,
             borderRadius: 0, // Remove border radius
-            bgcolor: theme.palette.background.paper, // Use theme's background color
+            bgcolor: theme.palette.background.default,
             color: theme.palette.text.primary, // Use theme's text color
           },
         }}

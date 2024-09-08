@@ -144,14 +144,14 @@ const UploadComponent = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Stack
           direction={{ xs: "column", md: "column" }} // Responsive direction
-          spacing={2}
+          spacing={10}
           sx={{ height: "100%" }}
         >
           <Box
             sx={{
               width: { xs: "100%", md: "100%" },
               p: 3,
-              bgcolor: theme.palette.background.light,
+              bgcolor: theme.palette.background.default,
               borderRadius: 2,
               boxShadow: 2,
               textAlign: "center",
@@ -161,25 +161,33 @@ const UploadComponent = () => {
               <Typography
                 variant="h4"
                 gutterBottom
-                color={theme.palette.text.secondary}
+                color={theme.palette.primary.main}
               >
                 Upload File
               </Typography>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                style={{
+
+              <Button
+                variant="outlined"
+                component="label"
+                sx={{
+                  width: "50%",
                   padding: theme.spacing(1),
-                  border: `1px solid ${theme.palette.divider}`,
-                  borderRadius: theme.shape.borderRadius,
-                  width: "80%",
+                  borderColor: theme.palette.primary.main,
+                  "&:hover": {
+                    borderColor: theme.palette.text.primary,
+                  },
                 }}
-              />
+              >
+                Choose File
+                <input type="file" onChange={handleFileChange} hidden />
+              </Button>
+
               {error && (
                 <Typography color="error" variant="body2">
                   {error}
                 </Typography>
               )}
+
               {isLoading ? (
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                   <LinearProgress
@@ -214,15 +222,15 @@ const UploadComponent = () => {
             sx={{
               // maxHeight: "100vh",
               // overflowY: "auto",
-              width: "80vw",
+              width: "100%",
             }}
-            gap={{xs:2, md:20}}
+            gap={{ xs: 2, md: 18 }}
           >
             {/* Original Preview */}
             <Stack
               alignItems="center"
               sx={{
-                bgcolor: theme.palette.background.light,
+                bgcolor: theme.palette.background.default,
                 padding: theme.spacing(2),
                 // borderRadius: 2,
               }}
@@ -266,7 +274,7 @@ const UploadComponent = () => {
               <Stack
                 alignItems="center"
                 sx={{
-                  bgcolor: theme.palette.background.paper,
+                  bgcolor: theme.palette.background.default,
                   padding: theme.spacing(2),
                   // borderRadius: 2,
                 }}

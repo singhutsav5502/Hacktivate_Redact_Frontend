@@ -12,6 +12,7 @@ let theme = createTheme({
             contrastText: '#ffffff', // Light text for readability
         },
         background: {
+            light:'#ddd',
             default: '#212121', // Dark background
             paper: '#424242', // Dark paper
         },
