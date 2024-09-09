@@ -9,14 +9,20 @@ import {
   useMediaQuery,
   useTheme,
   Link,
+  ListItemIcon,
+  Card,
+  CardContent,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Link as RouterLink } from "react-router-dom"; // Import as RouterLink to avoid name conflict
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Adjust the breakpoint as needed
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const username = useSelector(state => state.auth.username);
 
   const handleToggle = () => setOpen(!open);
 
@@ -56,6 +62,21 @@ const Sidebar = () => {
         }}
         variant={isMobile ? "temporary" : "persistent"} // Temporary for mobile, persistent for larger screens
       >
+        <Card sx={{ margin: theme.spacing(2), borderRadius: theme.shape.borderRadius , padding:'0'}}>
+          <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+            <ListItemIcon>
+              <AccountCircle />
+            </ListItemIcon>
+            <ListItemText 
+              primary={username} 
+              sx={{ 
+                textAlign: 'right', 
+                color: theme.palette.primary.main, 
+                marginRight: theme.spacing(2) 
+              }} 
+            />
+          </CardContent>
+        </Card>
         <List>
           {/* Upload */}
           <ListItem key="upload" disablePadding>

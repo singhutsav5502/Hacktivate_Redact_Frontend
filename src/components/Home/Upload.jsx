@@ -25,6 +25,7 @@ const UploadComponent = () => {
   const [uploadStatus, setUploadStatus] = useState("");
   const [isOriginalPreviewOpen, setIsOriginalPreviewOpen] = useState(true);
   const [isRedactedPreviewOpen, setIsRedactedPreviewOpen] = useState(true);
+  const [isDragAndDrop, setIsDragAndDrop] = useState(false); // Track drag-and-drop
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
@@ -36,12 +37,24 @@ const UploadComponent = () => {
     }
   }, [auth, navigate]);
 
+  useEffect(() => {
+    if (selectedFile) {
+      // Call handleUpload only if the file was dragged and dropped
+      if (isDragAndDrop) {
+        handleUpload();
+        setIsDragAndDrop(false); // Reset after handling drag-and-drop
+      }
+    }
+  }, [selectedFile, isDragAndDrop]);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
       setFileType(file.type);
+      // Set to false as it is not a drag-and-drop action
+      setIsDragAndDrop(false);
     }
   };
 
@@ -132,6 +145,22 @@ const UploadComponent = () => {
     }
   };
 
+  const handleDrop = (event) => {
+    event.preventDefault();
+    event.stopPropagation(); // Ensure the event does not propagate
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setFileType(file.type);
+      setIsDragAndDrop(true); // Set to true for drag-and-drop action
+    }
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Prevent default drag behavior
+  };
+
   return (
     <Box
       sx={{
@@ -141,25 +170,41 @@ const UploadComponent = () => {
       }}
     >
       <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Stack
-          direction={{ xs: "column", md: "column" }} // Responsive direction
+          direction="column"
           spacing={10}
-          sx={{ height: "100%" }}
+          sx={{ height: "100%", width: "100%" }}
         >
-          <Box
-            sx={{
-              width: { xs: "100%", md: "100%" },
-              p: 3,
-              bgcolor: theme.palette.background.default,
-              borderRadius: 2,
-              boxShadow: 2,
-              textAlign: "center",
-            }}
-          >
-            <Stack spacing={2} alignItems="center">
+          {!selectedFile ? (
+            <Box
+              sx={{
+                width: { xs: "100%", md: "100%" },
+                height: "100%",
+                p: 3,
+                bgcolor: theme.palette.background.default,
+                borderRadius: 2,
+                boxShadow: 2,
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+            >
               <Typography
-                variant="h4"
+                variant="h1"
                 gutterBottom
                 color={theme.palette.primary.main}
               >
@@ -173,8 +218,14 @@ const UploadComponent = () => {
                   width: "50%",
                   padding: theme.spacing(1),
                   borderColor: theme.palette.primary.main,
+                  color: theme.palette.primary.main, // Set text color directly
                   "&:hover": {
-                    borderColor: theme.palette.text.primary,
+                    borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
+                    color: theme.palette.primary.dark, // Ensure text color changes on hover
+                  },
+                  "&.Mui-disabled": {
+                    color: theme.palette.action.disabled, // Optional: handle disabled state
+                    borderColor: theme.palette.action.disabled, // Optional: handle disabled state
                   },
                 }}
               >
@@ -215,110 +266,215 @@ const UploadComponent = () => {
                   color="primary"
                   onClick={handleUpload}
                   disabled={!selectedFile}
-                  sx={{ mt: 2, width: "50%" }}
+                  sx={{ mt: 2, width: "50%", marginBottom: "15vh" }}
                 >
                   Upload
                 </Button>
               )}
-            </Stack>
-          </Box>
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            sx={{
-              // maxHeight: "100vh",
-              // overflowY: "auto",
-              width: "100%",
-            }}
-            gap={{ xs: 2, md: 18 }}
-          >
-            {/* Original Preview */}
-            <Stack
-              alignItems="center"
-              sx={{
-                bgcolor: theme.palette.background.default,
-                padding: theme.spacing(2),
-                // borderRadius: 2,
-              }}
-            >
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Typography variant="h6" color={theme.palette.text.secondary}>
-                  Original Preview
-                </Typography>
-                <IconButton
-                  onClick={() => setIsOriginalPreviewOpen((prev) => !prev)}
-                  color="secondary"
-                >
-                  {isOriginalPreviewOpen ? <ExpandLess /> : <ExpandMore />}
-                </IconButton>
-              </Stack>
-              <Collapse
-                in={isOriginalPreviewOpen}
-                sx={{
-                  maxWidth: "100vw",
-                  width: "100%", // Ensure the Collapse takes full width
-                }}
-              >
-                <Box
-                  sx={{
-                    height: "100%",
-                    maxWidth: "100vw",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {previewUrl && renderPreview(previewUrl, fileType)}
-                </Box>
-              </Collapse>
-            </Stack>
 
-            {/* Redacted Preview */}
-            {redactedPreviewUrl && (
-              <Stack
-                alignItems="center"
+              {/* Drag and Drop Area */}
+              <Box
                 sx={{
+                  width: "100%",
+                  height: "40vh",
+                  p: 3,
+                  mt: 2,
                   bgcolor: theme.palette.background.default,
-                  padding: theme.spacing(2),
-                  // borderRadius: 2,
+                  borderRadius: 2,
+                  border: `2px dashed ${theme.palette.divider}`,
+                  color: theme.palette.text.disabled,
+                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="h6" color={theme.palette.text.secondary}>
-                    Redacted Preview
-                  </Typography>
-                  <IconButton
-                    onClick={() => setIsRedactedPreviewOpen((prev) => !prev)}
-                    color="secondary"
-                  >
-                    {isRedactedPreviewOpen ? <ExpandLess /> : <ExpandMore />}
-                  </IconButton>
-                </Stack>
-                <Collapse
-                  in={isRedactedPreviewOpen}
-                  sx={{
-                    maxWidth: "100vw",
-                    width: "100%", // Ensure the Collapse takes full width
-                  }}
-                >
-                  <Box
+                <Typography variant="h3">
+                  Drag and drop files here or choose a file to upload
+                </Typography>
+              </Box>
+            </Box>
+          ) : (
+            <>
+              <Box
+                sx={{
+                  width: "100%",
+                  p: 3,
+                  bgcolor: theme.palette.background.default,
+                  borderRadius: 2,
+                  boxShadow: 2,
+                }}
+                onDragOver= {handleDragOver}
+                onDrop = {handleDrop}
+              >
+                <Stack spacing={2} alignItems="center">
+                  <Button
+                    variant="outlined"
+                    component="label"
                     sx={{
-                      height: "100%",
-                      maxWidth: "100vw",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      width: "50%",
+                      padding: theme.spacing(1),
+                      borderColor: theme.palette.primary.main,
+                      color: theme.palette.primary.main, // Set text color directly
+                      "&:hover": {
+                        borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
+                        color: theme.palette.primary.dark, // Ensure text color changes on hover
+                      },
+                      "&.Mui-disabled": {
+                        color: theme.palette.action.disabled, // Optional: handle disabled state
+                        borderColor: theme.palette.action.disabled, // Optional: handle disabled state
+                      },
                     }}
                   >
-                    {renderPreview(redactedPreviewUrl, fileType)}
-                  </Box>
-                </Collapse>
+                    Choose File
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      hidden
+                      accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt"
+                    />
+                  </Button>
+                  {error && (
+                    <Typography color="error" variant="body2">
+                      {error}
+                    </Typography>
+                  )}
+                  {isLoading ? (
+                    <Box sx={{ width: "100%", textAlign: "center" }}>
+                      <LinearProgress
+                        sx={{
+                          width: "80%",
+                          mx: "auto",
+                          bgcolor: theme.palette.secondary.light,
+                        }}
+                      />
+                      <Typography
+                        variant="body2"
+                        sx={{ mt: 1, color: theme.palette.text.secondary }}
+                      >
+                        {uploadStatus}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleUpload}
+                      disabled={!selectedFile}
+                      sx={{ mt: 2, width: "50%" }}
+                    >
+                      Upload
+                    </Button>
+                  )}
+                </Stack>
+              </Box>
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                sx={{
+                  width: "100%",
+                  gap: { xs: 2, md: 18 },
+                }}
+              >
+                {/* Original Preview */}
+                <Stack
+                  alignItems="center"
+                  sx={{
+                    bgcolor: theme.palette.background.default,
+                    padding: theme.spacing(2),
+                  }}
+                >
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Typography
+                      variant="h6"
+                      color={theme.palette.text.secondary}
+                    >
+                      Original Preview
+                    </Typography>
+                    <IconButton
+                      onClick={() => setIsOriginalPreviewOpen((prev) => !prev)}
+                      color="secondary"
+                    >
+                      {isOriginalPreviewOpen ? <ExpandLess /> : <ExpandMore />}
+                    </IconButton>
+                  </Stack>
+                  <Collapse
+                    in={isOriginalPreviewOpen}
+                    sx={{
+                      maxWidth: "100vw",
+                      width: "100%", // Ensure the Collapse takes full width
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        height: "100%",
+                        maxWidth: "100vw",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {previewUrl && renderPreview(previewUrl, fileType)}
+                    </Box>
+                  </Collapse>
+                </Stack>
+
+                {/* Redacted Preview */}
+                {redactedPreviewUrl && (
+                  <Stack
+                    alignItems="center"
+                    sx={{
+                      bgcolor: theme.palette.background.default,
+                      padding: theme.spacing(2),
+                    }}
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography
+                        variant="h6"
+                        color={theme.palette.text.secondary}
+                      >
+                        Redacted Preview
+                      </Typography>
+                      <IconButton
+                        onClick={() =>
+                          setIsRedactedPreviewOpen((prev) => !prev)
+                        }
+                        color="secondary"
+                      >
+                        {isRedactedPreviewOpen ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )}
+                      </IconButton>
+                    </Stack>
+                    <Collapse
+                      in={isRedactedPreviewOpen}
+                      sx={{
+                        maxWidth: "100vw",
+                        width: "100%", // Ensure the Collapse takes full width
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          height: "100%",
+                          maxWidth: "100vw",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {renderPreview(redactedPreviewUrl, fileType)}
+                      </Box>
+                    </Collapse>
+                  </Stack>
+                )}
               </Stack>
-            )}
-          </Stack>
+            </>
+          )}
         </Stack>
       </Box>
     </Box>
