@@ -6,6 +6,7 @@ let theme = createTheme({
         primary: {
             main: '#90caf9', // Light blue
             contrastText: '#666e96', // Dark text for readability
+            sharp: '#a5c2f0'
         },
         secondary: {
             main: '#555', // Dark grey
@@ -19,6 +20,9 @@ let theme = createTheme({
         text: {
             primary: '#444', 
             secondary: '#e0e0e0', 
+            // logout: '#d9928d'
+            // logout: '#dbb9b2'
+            logout: '#8c7a76'
         },
     },
     typography: {

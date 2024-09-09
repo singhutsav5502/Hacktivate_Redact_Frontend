@@ -206,7 +206,7 @@ const UploadComponent = () => {
               <Typography
                 variant="h1"
                 gutterBottom
-                color={theme.palette.primary.main}
+                color={theme.palette.primary.sharp}
               >
                 Upload File
               </Typography>
