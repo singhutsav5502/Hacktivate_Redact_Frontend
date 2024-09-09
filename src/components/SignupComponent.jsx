@@ -73,6 +73,20 @@ const SignupComponent = () => {
             p: 3,
           }}
         >
+                  <Typography
+          variant="h1" 
+          sx={{
+            fontFamily: "Bebas Neue, sans-serif",
+            fontSize:"2.9em",
+            fontWeight: 900,
+            color: theme,
+            textAlign: "center",
+            marginBottom: 1.5,
+            letterSpacing:1
+          }}
+        >
+          RE-DACT
+        </Typography>  
           <Box
             sx={{
               display: "flex",
