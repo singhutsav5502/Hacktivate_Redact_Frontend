@@ -1,26 +1,26 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-let theme = createTheme({
+let light_theme = createTheme({
     palette: {
-        mode: 'dark',
+        mode: 'light',
         primary: {
-            main: '#90caf9', // Light blue
-            contrastText: '#666e96', // Dark text for readability
-            sharp: '#a5c2f0',
-            icon: '#555'
+            main: '#0077FF', // Bright blue for primary actions
+            contrastText: '#FFFFFF', // White text for contrast
+            sharp: '#005BBB', // Darker blue for accents,
+            icon: '#555',
         },
         secondary: {
-            main: '#555', // Dark grey
-            contrastText: '#ffffff', // Light text for readability
+            main: '#4CAF50', // Soft green
+            contrastText: '#FFFFFF', // White text for readability
         },
         background: {
-            light:'#ddd',
-            default: '#212121', // Dark background
-            paper: '#424242', // Dark paper
+            light: '#F5F5F5', // Very light grey background
+            default: '#FFF', // White background
+            paper: '#FFF', // White paper for cards and dialogs
         },
         text: {
             primary: '#444', 
-            secondary: '#e0e0e0', 
+            secondary: '#555', 
             // logout: '#d9928d'
             // logout: '#dbb9b2'
             logout: '#8c7a76'
@@ -31,43 +31,43 @@ let theme = createTheme({
         h1: {
             fontWeight: 700,
             fontSize: '2.75rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         h2: {
             fontWeight: 700,
             fontSize: '2.25rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         h3: {
             fontWeight: 600,
             fontSize: '2rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         h4: {
             fontWeight: 600,
             fontSize: '1.75rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         h5: {
             fontWeight: 500,
             fontSize: '1.5rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         h6: {
             fontWeight: 500,
             fontSize: '1.25rem',
-            // color: '#ffffff', // Light color for headings
+            color: '#333333', // Dark color for headings
         },
         body1: {
             fontSize: '1rem',
-            // color: '#e0e0e0', // Light grey for body text
+            color: '#444444', // Dark grey for body text
         },
         body2: {
             fontSize: '0.875rem',
-            // color: '#b0b0b0', // Medium grey for secondary body text
+            color: '#666666', // Medium grey for secondary body text
         },
         monospace: {
-            fontFamily: '"Geist", monospace',
+            fontFamily: '"GeistMono", monospace',
         },
     },
     components: {
@@ -109,7 +109,7 @@ let theme = createTheme({
                 root: {
                     borderRadius: '12px', // Rounded corners for paper elements
                     padding: '16px',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Subtle shadow for paper elements
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.05)', // Subtle shadow for paper elements
                 },
             },
         },
@@ -117,7 +117,7 @@ let theme = createTheme({
             styleOverrides: {
                 root: {
                     borderRadius: '12px', // Rounded corners for cards
-                    boxShadow: '0px 6px 15px rgba(0, 0, 0, 0.15)', // More pronounced shadow for cards
+                    boxShadow: '0px 6px 15px rgba(0, 0, 0, 0.1)', // More pronounced shadow for cards
                 },
             },
         },
@@ -139,5 +139,5 @@ let theme = createTheme({
     },
 });
 
-theme = responsiveFontSizes(theme);
-export default theme;
+light_theme = responsiveFontSizes(light_theme);
+export default light_theme;

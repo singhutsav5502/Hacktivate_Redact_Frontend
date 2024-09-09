@@ -7,7 +7,7 @@ import {
   CardMedia,
   IconButton,
   CssBaseline,
-  useTheme
+  useTheme,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const getFileIcon = (fileType) => {
 const ViewFilesComponent = () => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState("");
-  
+
   const theme = useTheme(); // Accessing the current theme
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
@@ -77,7 +77,13 @@ const ViewFilesComponent = () => {
   }, [auth.token]);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", bgcolor: theme.palette.background.default }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        bgcolor: theme.palette.background.default,
+      }}
+    >
       <CssBaseline />
       <Sidebar />
       <Box
@@ -89,7 +95,10 @@ const ViewFilesComponent = () => {
           width: "100%",
         }}
       >
-        <Typography variant="h4" sx={{ mb: 2, color: theme.palette.primary.main }}>
+        <Typography
+          variant="h4"
+          sx={{ mb: 2, color: theme.palette.primary.main }}
+        >
           View Redacted Files
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
@@ -112,92 +121,93 @@ const ViewFilesComponent = () => {
                 width: {
                   xs: "100%",
                   sm: "calc(50% - 8px)",
-                  md: "calc(33.33% - 10.67px)"
+                  md: "calc(33.33% - 10.67px)",
                 },
-                  cursor: "pointer",
-                  opacity: 0.7,
-                  transition: "opacity 0.3s ease-in-out",
-                  "&:hover": {
-                    opacity: 1,
-                  },
-                  bgcolor: theme.palette.background.paper,
-                }}
-                onClick={() => {
-                  window.open(file.cloudinary_url, "_blank");
+                cursor: "pointer",
+                opacity: 0.7,
+                transition: "opacity 0.3s ease-in-out",
+                "&:hover": {
+                  opacity: 1,
+                },
+                bgcolor: theme.palette.background.paper,
+              }}
+              onClick={() => {
+                window.open(file.cloudinary_url, "_blank");
+              }}
+            >
+              <CardContent
+                sx={{
+                  flex: "1 0 auto",
+                  px: 2,
+                  py: 1,
+                  color: theme.palette.text.primary,
+                  maxWidth: "80%",
                 }}
               >
-                <CardContent
+                <Typography
+                  variant="h6"
+                  component="div"
                   sx={{
-                    flex: "1 0 auto",
-                    px: 2,
-                    py: 1,
-                    color: theme.palette.text.primary,
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{
-                      width: "100%",
-                      textAlign: "left",
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      fontSize: {
-                        xs: "0.75rem",
-                        sm: "0.8rem",
-                        md: "1rem",
-                      },
-                      color: theme.palette.primary.main,
-                    }}
-                  >
-                    {file.original_filename}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      fontSize: {
-                        xs: "0.75rem",
-                        sm: "0.875rem",
-                        md: "1rem",
-                      },
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    {new Date(file.created_at).toLocaleString()}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{
-                      fontSize: {
-                        xs: "0.75rem",
-                        sm: "0.875rem",
-                        md: "1rem",
-                      },
-                      color: theme.palette.text.secondary,
-                    }}
-                  >
-                    {file.type.split("/")[1]}
-                  </Typography>
-                </CardContent>
-                <CardMedia
-                  sx={{
-                    width: 150,
-                    height: 100,
-                    margin: 0,
-                    padding: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    width: "100%",
+                    textAlign: "left",
+                    whiteSpace: "normal", // Allow text to wrap
+                    overflow: "visible", // Make sure the overflow does not hide text
+                    textOverflow: "clip", // Disable ellipsis if you want to show all the text
+                    fontSize: {
+                      xs: "0.75em",
+                      sm: "0.8rem",
+                      md: "1rem",
+                    },
                     color: theme.palette.primary.main,
                   }}
                 >
-                  {getFileIcon(file.type)}
-                </CardMedia>
-              </Card>
-            ))}
+                  {file.original_filename}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: {
+                      xs: "0.75rem",
+                      sm: "0.875rem",
+                      md: "1rem",
+                    },
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {new Date(file.created_at).toLocaleString()}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: {
+                      xs: "0.75rem",
+                      sm: "0.875rem",
+                      md: "1rem",
+                    },
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  {file.type.split("/")[1]}
+                </Typography>
+              </CardContent>
+              <CardMedia
+                sx={{
+                  width: 150,
+                  height: 100,
+                  margin: 0,
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: theme.palette.primary.main,
+                }}
+              >
+                {getFileIcon(file.type)}
+              </CardMedia>
+            </Card>
+          ))}
         </Box>
       </Box>
     </Box>

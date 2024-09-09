@@ -17,15 +17,19 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Logout from "@mui/icons-material/Logout";
+import Brightness4 from "@mui/icons-material/Brightness4";
+import Brightness7 from "@mui/icons-material/Brightness7";
 import { Link as RouterLink, useNavigate } from "react-router-dom"; // Import useNavigate for programmatic navigation
 import { useSelector, useDispatch } from "react-redux";
 import { clearAll } from "../../slice/authSlice";
+import { switchTheme } from "../../slice/themeSlice";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const username = useSelector(state => state.auth.username);
+  const username = useSelector((state) => state.auth.username);
+  const isDarkTheme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Hook for programmatic navigation
 
@@ -34,6 +38,10 @@ const Sidebar = () => {
   const handleLogout = () => {
     dispatch(clearAll());
     navigate("/login");
+  };
+
+  const handleThemeSwitch = () => {
+    dispatch(switchTheme());
   };
 
   return (
@@ -58,10 +66,10 @@ const Sidebar = () => {
         onClose={isMobile ? handleToggle : undefined} // Only handle toggle on mobile
         sx={{
           width: 250,
-          height: '100vh', // Full height
+          height: "100vh", // Full height
           flexShrink: 0,
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
           "& .MuiDrawer-paper": {
             width: 250,
             boxSizing: "border-box",
@@ -71,21 +79,27 @@ const Sidebar = () => {
             borderRadius: 0, // Remove border radius
             bgcolor: theme.palette.background.default,
             color: theme.palette.text.primary, // Use theme's text color
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
           },
         }}
         variant={isMobile ? "temporary" : "persistent"} // Temporary for mobile, persistent for larger screens
       >
-        <Card sx={{ margin: theme.spacing(2), borderRadius: theme.shape.borderRadius, padding: '0' }}>
-          <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+        <Card
+          sx={{
+            margin: theme.spacing(2),
+            borderRadius: theme.shape.borderRadius,
+            padding: "0",
+          }}
+        >
+          <CardContent sx={{ display: "flex", alignItems: "center" }}>
             <ListItemIcon>
               <AccountCircle />
             </ListItemIcon>
             <ListItemText
               primary={username}
               sx={{
-                textAlign: 'right',
+                textAlign: "right",
                 color: theme.palette.primary.main,
                 marginRight: theme.spacing(2),
               }}
@@ -95,8 +109,8 @@ const Sidebar = () => {
         <List
           sx={{
             flexGrow: 1, // Take up available space
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {/* Upload */}
@@ -151,12 +165,29 @@ const Sidebar = () => {
         </List>
         <Divider sx={{ my: 2 }} /> {/* Divider before Logout */}
         <List>
-          <ListItem disablePadding sx={{ mt: 'auto' }}>
+          {/* Theme Switcher */}
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleThemeSwitch}>
+              <ListItemIcon>
+                {isDarkTheme ? <Brightness7 /> : <Brightness4 />}
+              </ListItemIcon>
+              <ListItemText
+                primary={isDarkTheme ? "Dark Mode" : "Light Mode"}
+                sx={{ color: theme.palette.text.secondary }}
+              />
+            </ListItemButton>
+          </ListItem>
+
+          {/* Logout */}
+          <ListItem disablePadding sx={{ mt: "auto" }}>
             <ListItemButton onClick={handleLogout}>
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>
-              <ListItemText primary="Logout" sx={{ color: theme.palette.text.logout }} />
+              <ListItemText
+                primary="Logout"
+                sx={{ color: theme.palette.text.logout }}
+              />
             </ListItemButton>
           </ListItem>
         </List>

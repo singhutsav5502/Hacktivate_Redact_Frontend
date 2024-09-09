@@ -7,6 +7,7 @@ import {
   LinearProgress,
   Collapse,
   IconButton,
+  Card,
 } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import Sidebar from "./Sidebar";
@@ -29,7 +30,7 @@ const UploadComponent = () => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
-
+  const isDarkTheme = useSelector((state) => state.theme.theme);
   useEffect(() => {
     if (!auth.token || !auth.username) {
       toast.error("User not logged in!");
@@ -63,7 +64,7 @@ const UploadComponent = () => {
       setError("No file selected");
       return;
     }
-    setRedactedPreviewUrl("");
+    setRedactedPreviewUrl(null);
     setIsLoading(true);
     setError("");
     const formData = new FormData();
@@ -203,14 +204,17 @@ const UploadComponent = () => {
               onDrop={handleDrop}
               onDragOver={handleDragOver}
             >
+              <Typography variant="h1" color={theme.palette.primary.sharp}>
+                RE-DACT Files
+              </Typography>
               <Typography
-                variant="h1"
+                variant="body1"
                 gutterBottom
+                sx={{ marginBottom: "3vh" }}
                 color={theme.palette.primary.sharp}
               >
-                Upload File
+                Obfuscate personal data in seconds.
               </Typography>
-
               <Button
                 variant="outlined"
                 component="label"
@@ -290,7 +294,7 @@ const UploadComponent = () => {
                 }}
               >
                 <Typography variant="h3">
-                  Drag and drop files here or choose a file to upload
+                  Drag and drop files here to upload.
                 </Typography>
               </Box>
             </Box>
@@ -304,8 +308,8 @@ const UploadComponent = () => {
                   borderRadius: 2,
                   boxShadow: 2,
                 }}
-                onDragOver= {handleDragOver}
-                onDrop = {handleDrop}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
               >
                 <Stack spacing={2} alignItems="center">
                   <Button
@@ -372,60 +376,25 @@ const UploadComponent = () => {
                 direction={{ xs: "column", md: "row" }}
                 sx={{
                   width: "100%",
-                  gap: { xs: 2, md: 18 },
+                  gap: { xs: 2, md: 10 },
                 }}
               >
                 {/* Original Preview */}
-                <Stack
-                  alignItems="center"
+                <Card
                   sx={{
-                    bgcolor: theme.palette.background.default,
-                    padding: theme.spacing(2),
+                    display: "flex",
+                    alignItems: "flex-start",
+                    width: "auto",
+                    bgcolor: `${
+                      isDarkTheme
+                        ? theme.palette.background.default
+                        : theme.palette.background.paper
+                    }`,
                   }}
                 >
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Typography
-                      variant="h6"
-                      color={theme.palette.text.secondary}
-                    >
-                      Original Preview
-                    </Typography>
-                    <IconButton
-                      onClick={() => setIsOriginalPreviewOpen((prev) => !prev)}
-                      color="secondary"
-                    >
-                      {isOriginalPreviewOpen ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                  </Stack>
-                  <Collapse
-                    in={isOriginalPreviewOpen}
-                    sx={{
-                      maxWidth: "100vw",
-                      width: "100%", // Ensure the Collapse takes full width
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: "100%",
-                        maxWidth: "100vw",
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {previewUrl && renderPreview(previewUrl, fileType)}
-                    </Box>
-                  </Collapse>
-                </Stack>
-
-                {/* Redacted Preview */}
-                {redactedPreviewUrl && (
                   <Stack
                     alignItems="center"
                     sx={{
-                      bgcolor: theme.palette.background.default,
                       padding: theme.spacing(2),
                     }}
                   >
@@ -434,15 +403,15 @@ const UploadComponent = () => {
                         variant="h6"
                         color={theme.palette.text.secondary}
                       >
-                        Redacted Preview
+                        Original Preview
                       </Typography>
                       <IconButton
                         onClick={() =>
-                          setIsRedactedPreviewOpen((prev) => !prev)
+                          setIsOriginalPreviewOpen((prev) => !prev)
                         }
                         color="secondary"
                       >
-                        {isRedactedPreviewOpen ? (
+                        {isOriginalPreviewOpen ? (
                           <ExpandLess />
                         ) : (
                           <ExpandMore />
@@ -450,7 +419,7 @@ const UploadComponent = () => {
                       </IconButton>
                     </Stack>
                     <Collapse
-                      in={isRedactedPreviewOpen}
+                      in={isOriginalPreviewOpen}
                       sx={{
                         maxWidth: "100vw",
                         width: "100%", // Ensure the Collapse takes full width
@@ -467,10 +436,74 @@ const UploadComponent = () => {
                           justifyContent: "center",
                         }}
                       >
-                        {renderPreview(redactedPreviewUrl, fileType)}
+                        {previewUrl && renderPreview(previewUrl, fileType)}
                       </Box>
                     </Collapse>
                   </Stack>
+                </Card>
+                {/* Redacted Preview */}
+                {redactedPreviewUrl && (
+                  <Card
+                    sx={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      width: "auto",
+                      bgcolor: `${
+                        isDarkTheme
+                          ? theme.palette.background.default
+                          : theme.palette.background.paper
+                      }`,
+                    }}
+                  >
+                    <Stack
+                      alignItems="center"
+                      sx={{
+                        padding: theme.spacing(2),
+                      }}
+                    >
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography
+                          variant="h6"
+                          color={theme.palette.text.secondary}
+                        >
+                          Redacted Preview
+                        </Typography>
+                        <IconButton
+                          onClick={() =>
+                            setIsRedactedPreviewOpen((prev) => !prev)
+                          }
+                          color="secondary"
+                        >
+                          {isRedactedPreviewOpen ? (
+                            <ExpandLess />
+                          ) : (
+                            <ExpandMore />
+                          )}
+                        </IconButton>
+                      </Stack>
+                      <Collapse
+                        in={isRedactedPreviewOpen}
+                        sx={{
+                          maxWidth: "100vw",
+                          width: "100%", // Ensure the Collapse takes full width
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "100%",
+                            maxWidth: "100vw",
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {renderPreview(redactedPreviewUrl, fileType)}
+                        </Box>
+                      </Collapse>
+                    </Stack>
+                  </Card>
                 )}
               </Stack>
             </>

@@ -99,8 +99,8 @@ const LoginComponent = () => {
             }}
           >
             <IconButton
-              color="secondary"
               sx={{
+                color: theme.palette.primary.icon,
                 backgroundColor: theme.palette.primary.main,
                 borderRadius: "50%",
                 padding: 1,
