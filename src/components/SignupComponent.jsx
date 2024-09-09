@@ -77,7 +77,7 @@ const SignupComponent = () => {
           variant="h1" 
           sx={{
             fontFamily: "Bebas Neue, sans-serif",
-            fontSize:"2.9em",
+            fontSize:{xs:'1 em',md:"2.9em"},
             fontWeight: 900,
             color: theme,
             textAlign: "center",
