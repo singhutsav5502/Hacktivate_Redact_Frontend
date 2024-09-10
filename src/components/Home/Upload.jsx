@@ -335,7 +335,7 @@ const UploadComponent = () => {
                       type="file"
                       onChange={handleFileChange}
                       hidden
-                      accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt"
+                      accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
                     />
                   </Button>
                   {error && (
