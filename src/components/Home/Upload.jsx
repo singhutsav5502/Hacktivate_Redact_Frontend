@@ -39,7 +39,9 @@ const UploadComponent = () => {
     "high",
   ]);
   const [specialCustomisationModal, setSpecialCustomisationModal] =
-    useState(true);
+    useState(false);
+
+    
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
