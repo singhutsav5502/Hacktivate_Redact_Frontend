@@ -8,13 +8,18 @@ import {
   Collapse,
   IconButton,
   Card,
+  Slider,
+  TextField,
+  Modal,
 } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
-import Sidebar from "./Sidebar";
+import CustomizeIcon from "@mui/icons-material/Settings";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import Sidebar from "./Sidebar";
+import RedactionCustomisation from "./RedactionCustomisation";
 
 const UploadComponent = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -27,6 +32,14 @@ const UploadComponent = () => {
   const [isOriginalPreviewOpen, setIsOriginalPreviewOpen] = useState(true);
   const [isRedactedPreviewOpen, setIsRedactedPreviewOpen] = useState(true);
   const [isDragAndDrop, setIsDragAndDrop] = useState(false); // Track drag-and-drop
+  const [specialInstructions, setSpecialInstructions] = useState("");
+  const [levelOfRedaction, setLevelOfRedaction] = useState([
+    "low",
+    "medium",
+    "high",
+  ]);
+  const [specialCustomisationModal, setSpecialCustomisationModal] =
+    useState(true);
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
@@ -69,7 +82,10 @@ const UploadComponent = () => {
     setError("");
     const formData = new FormData();
     formData.append("file", selectedFile);
-
+    formData.append("special_instructions", specialInstructions);
+    levelOfRedaction.forEach((level) => {
+      formData.append("level_of_redaction", level);
+    });
     try {
       setUploadStatus("Uploading file...");
       const response = await fetch(`${process.env.REACT_APP_SERVER}/upload`, {
@@ -145,7 +161,123 @@ const UploadComponent = () => {
         return <Typography variant="body1">No preview available</Typography>;
     }
   };
+  const ButtonInput = () => {
+    return (
+      <>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1vw",
+            width: "50%",
+          }}
+        >
+          <Button
+            variant="outlined"
+            component="label"
+            sx={{
+              width: "70%",
+              padding: theme.spacing(1),
+              borderColor: theme.palette.primary.main,
+              color: theme.palette.primary.main, // Set text color directly
+              "&:hover": {
+                borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
+                color: theme.palette.primary.dark, // Ensure text color changes on hover
+              },
+              "&.Mui-disabled": {
+                color: theme.palette.action.disabled,
+                borderColor: theme.palette.action.disabled,
+              },
+            }}
+          >
+            Choose File
+            <input
+              type="file"
+              onChange={handleFileChange}
+              hidden
+              accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
+            />
+          </Button>
 
+          <Button
+            variant="outlined"
+            component="label"
+            onClick={() => {
+              setSpecialCustomisationModal((prevVal) => true);
+            }}
+            sx={{
+              width: "auto",
+              padding: {
+                xs: theme.spacing(0.5), // Smaller padding for mobile devices
+                sm: theme.spacing(1), // Normal padding for small screens and up
+              },
+              fontSize: {
+                xs: "0.8rem", // Smaller font size for mobile
+                sm: "1rem", // Normal font size for small screens and up
+              },
+              borderColor: theme.palette.primary.main,
+              color: theme.palette.primary.main,
+              "&:hover": {
+                borderColor: theme.palette.primary.dark,
+                color: theme.palette.primary.dark,
+              },
+              "&.Mui-disabled": {
+                color: theme.palette.action.disabled,
+                borderColor: theme.palette.action.disabled,
+              },
+            }}
+            startIcon={<CustomizeIcon />}
+          >
+            Customise Redaction
+          </Button>
+        </Box>
+      </>
+    );
+  };
+  const UploadSection = () => {
+    return (
+      <>
+        {isLoading ? (
+          <Box sx={{ width: "100%", textAlign: "center" }}>
+            <LinearProgress
+              sx={{
+                width: "80%",
+                mx: "auto",
+                bgcolor: theme.palette.secondary.light,
+              }}
+            />
+            <Typography
+              variant="body2"
+              sx={{ mt: 1, color: theme.palette.text.secondary }}
+            >
+              {uploadStatus}
+            </Typography>
+          </Box>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpload}
+            disabled={!selectedFile}
+            sx={{ mt: 2, width: "50%" }}
+          >
+            Upload
+          </Button>
+        )}
+      </>
+    );
+  };
+  const ErrorBlock = () => {
+    if (error) {
+      return (
+        <Typography color="error" variant="body2">
+          {error}
+        </Typography>
+      );
+    } else {
+      return <></>;
+    }
+  };
   const handleDrop = (event) => {
     event.preventDefault();
     event.stopPropagation(); // Ensure the event does not propagate
@@ -176,11 +308,15 @@ const UploadComponent = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
         }}
       >
+        <RedactionCustomisation
+          setLevelOfRedaction={setLevelOfRedaction}
+          specialInstructions={specialInstructions}
+          setSpecialInstructions={setSpecialInstructions}
+          specialCustomisationModal={specialCustomisationModal}
+          setSpecialCustomisationModal={setSpecialCustomisationModal}
+        />
         <Stack
           direction="column"
           spacing={10}
@@ -215,67 +351,10 @@ const UploadComponent = () => {
               >
                 Obfuscate personal data in seconds.
               </Typography>
-              <Button
-                variant="outlined"
-                component="label"
-                sx={{
-                  width: "50%",
-                  padding: theme.spacing(1),
-                  borderColor: theme.palette.primary.main,
-                  color: theme.palette.primary.main, // Set text color directly
-                  "&:hover": {
-                    borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
-                    color: theme.palette.primary.dark, // Ensure text color changes on hover
-                  },
-                  "&.Mui-disabled": {
-                    color: theme.palette.action.disabled, // Optional: handle disabled state
-                    borderColor: theme.palette.action.disabled, // Optional: handle disabled state
-                  },
-                }}
-              >
-                Choose File
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  hidden
-                  accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
-                />
-              </Button>
+              <ButtonInput />
+              <ErrorBlock />
 
-              {error && (
-                <Typography color="error" variant="body2">
-                  {error}
-                </Typography>
-              )}
-
-              {isLoading ? (
-                <Box sx={{ width: "100%", textAlign: "center" }}>
-                  <LinearProgress
-                    sx={{
-                      width: "80%",
-                      mx: "auto",
-                      bgcolor: theme.palette.secondary.light,
-                    }}
-                  />
-                  <Typography
-                    variant="body2"
-                    sx={{ mt: 1, color: theme.palette.text.secondary }}
-                  >
-                    {uploadStatus}
-                  </Typography>
-                </Box>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUpload}
-                  disabled={!selectedFile}
-                  sx={{ mt: 2, width: "50%", marginBottom: "15vh" }}
-                >
-                  Upload
-                </Button>
-              )}
-
+              <UploadSection />
               {/* Drag and Drop Area */}
               <Box
                 sx={{
@@ -312,64 +391,9 @@ const UploadComponent = () => {
                 onDrop={handleDrop}
               >
                 <Stack spacing={2} alignItems="center">
-                  <Button
-                    variant="outlined"
-                    component="label"
-                    sx={{
-                      width: "50%",
-                      padding: theme.spacing(1),
-                      borderColor: theme.palette.primary.main,
-                      color: theme.palette.primary.main, // Set text color directly
-                      "&:hover": {
-                        borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
-                        color: theme.palette.primary.dark, // Ensure text color changes on hover
-                      },
-                      "&.Mui-disabled": {
-                        color: theme.palette.action.disabled, // Optional: handle disabled state
-                        borderColor: theme.palette.action.disabled, // Optional: handle disabled state
-                      },
-                    }}
-                  >
-                    Choose File
-                    <input
-                      type="file"
-                      onChange={handleFileChange}
-                      hidden
-                      accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
-                    />
-                  </Button>
-                  {error && (
-                    <Typography color="error" variant="body2">
-                      {error}
-                    </Typography>
-                  )}
-                  {isLoading ? (
-                    <Box sx={{ width: "100%", textAlign: "center" }}>
-                      <LinearProgress
-                        sx={{
-                          width: "80%",
-                          mx: "auto",
-                          bgcolor: theme.palette.secondary.light,
-                        }}
-                      />
-                      <Typography
-                        variant="body2"
-                        sx={{ mt: 1, color: theme.palette.text.secondary }}
-                      >
-                        {uploadStatus}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleUpload}
-                      disabled={!selectedFile}
-                      sx={{ mt: 2, width: "50%" }}
-                    >
-                      Upload
-                    </Button>
-                  )}
+                  <ButtonInput />
+                  <ErrorBlock />
+                  <UploadSection />
                 </Stack>
               </Box>
               <Stack
