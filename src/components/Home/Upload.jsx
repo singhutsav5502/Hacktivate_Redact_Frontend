@@ -8,9 +8,6 @@ import {
   Collapse,
   IconButton,
   Card,
-  Slider,
-  TextField,
-  Modal,
 } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import CustomizeIcon from "@mui/icons-material/Settings";
@@ -41,7 +38,7 @@ const UploadComponent = () => {
   const [specialCustomisationModal, setSpecialCustomisationModal] =
     useState(false);
 
-    
+
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
