@@ -4,6 +4,7 @@ import {
   Button,
   Modal,
   Slider,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -45,6 +46,7 @@ const RedactionCustomisation = ({
           variant="h6"
           gutterBottom
           color={theme.palette.text.secondary}
+          sx={{ textAlign: "left" }}
         >
           Redaction Level: {Object.keys(redactionLevels)[redactionSliderLevel]}
         </Typography>
@@ -69,48 +71,56 @@ const RedactionCustomisation = ({
 
   return (
     <>
-      <Modal
+      {/* <Modal
         open={specialCustomisationModal}
         onClose={handleClose}
         aria-labelledby="redaction-modal-title"
         aria-describedby="redaction-modal-description"
+      > */}
+      <Box
+        sx={{
+          // position: "absolute",
+          // top: "50%",
+          // left: "55%",
+          // transform: "translate(-50%, -50%)",
+          // bgcolor: "background.paper",
+          width: { xs: "100%", md: "100%" },
+          borderRadius: 2,
+          // boxShadow: 12,
+          p: 4,
+        }}
       >
         <Box
+        >
+          {/* <Typography variant="h3" color={theme.palette.text.secondary}>
+            Document Redaction Settings
+          </Typography>
+          <Typography
+            variant="body1"
+            gutterBottom
+            color={theme.palette.text.secondary}
+            sx={{ opacity: 0.75 }}
+          >
+            Adjust the redaction level and provide any special instructions.
+          </Typography> */}
+        </Box>
+        <Box
+          spacing={20}
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "55%",
-            transform: "translate(-50%, -50%)",
-            width: "30vw",
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: "5vw",
           }}
         >
-          <Box
-            sx={{
-              marginBottom: "3vh",
-            }}
-          >
-            <Typography variant="h3" color={theme.palette.text.secondary}>
-              Document Redaction Settings
-            </Typography>
-            <Typography
-              variant="body1"
-              gutterBottom
-              color={theme.palette.text.secondary}
-              sx={{ opacity: 0.75 }}
-            >
-              Adjust the redaction level and provide any special instructions.
-            </Typography>
-          </Box>
           <RedactionSlider />
           <Box sx={{ width: "100%", marginBottom: 2 }}>
             <Typography
               gutterBottom
               variant="h6"
               color={theme.palette.text.secondary}
+              sx={{ textAlign: "left" }}
             >
               Special Instructions
             </Typography>
@@ -150,16 +160,17 @@ const RedactionCustomisation = ({
               }}
             />
           </Box>
-          <Button
+        </Box>
+        {/* <Button
             onClick={handleClose}
             variant="contained"
             fullWidth
             sx={{ mb: 2 }}
           >
             Save and Close
-          </Button>
-        </Box>
-      </Modal>
+          </Button> */}
+      </Box>
+      {/* </Modal> */}
     </>
   );
 };

@@ -38,7 +38,6 @@ const UploadComponent = () => {
   const [specialCustomisationModal, setSpecialCustomisationModal] =
     useState(false);
 
-
   const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
   const theme = useTheme();
@@ -160,45 +159,45 @@ const UploadComponent = () => {
         return <Typography variant="body1">No preview available</Typography>;
     }
   };
-  const ButtonInput = () => {
+  const ChooseFileInput = () => {
     return (
       <>
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             gap: "1vw",
             width: "50%",
           }}
+        > */}
+        <Button
+          variant="outlined"
+          component="label"
+          sx={{
+            width: "100%",
+            padding: theme.spacing(1),
+            borderColor: theme.palette.primary.main,
+            color: theme.palette.primary.main, // Set text color directly
+            "&:hover": {
+              borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
+              color: theme.palette.primary.dark, // Ensure text color changes on hover
+            },
+            "&.Mui-disabled": {
+              color: theme.palette.action.disabled,
+              borderColor: theme.palette.action.disabled,
+            },
+          }}
         >
-          <Button
-            variant="outlined"
-            component="label"
-            sx={{
-              width: "70%",
-              padding: theme.spacing(1),
-              borderColor: theme.palette.primary.main,
-              color: theme.palette.primary.main, // Set text color directly
-              "&:hover": {
-                borderColor: theme.palette.primary.dark, // Ensure the border color changes on hover
-                color: theme.palette.primary.dark, // Ensure text color changes on hover
-              },
-              "&.Mui-disabled": {
-                color: theme.palette.action.disabled,
-                borderColor: theme.palette.action.disabled,
-              },
-            }}
-          >
-            Choose File
-            <input
-              type="file"
-              onChange={handleFileChange}
-              hidden
-              accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
-            />
-          </Button>
+          Choose File
+          <input
+            type="file"
+            onChange={handleFileChange}
+            hidden
+            accept=".png,.jpg,.jpeg,.gif,.pdf,.doc,.docx,.txt,video/*"
+          />
+        </Button>
 
-          <Button
+        {/* <Button
             variant="outlined"
             component="label"
             onClick={() => {
@@ -228,8 +227,8 @@ const UploadComponent = () => {
             startIcon={<CustomizeIcon />}
           >
             Customise Redaction
-          </Button>
-        </Box>
+          </Button> */}
+        {/* </Box> */}
       </>
     );
   };
@@ -258,7 +257,7 @@ const UploadComponent = () => {
             color="primary"
             onClick={handleUpload}
             disabled={!selectedFile}
-            sx={{ mt: 2, width: "50%" }}
+            sx={{ mt: 2, width: "95%" }}
           >
             Upload
           </Button>
@@ -309,13 +308,6 @@ const UploadComponent = () => {
           p: 3,
         }}
       >
-        <RedactionCustomisation
-          setLevelOfRedaction={setLevelOfRedaction}
-          specialInstructions={specialInstructions}
-          setSpecialInstructions={setSpecialInstructions}
-          specialCustomisationModal={specialCustomisationModal}
-          setSpecialCustomisationModal={setSpecialCustomisationModal}
-        />
         <Stack
           direction="column"
           spacing={10}
@@ -350,10 +342,29 @@ const UploadComponent = () => {
               >
                 Obfuscate personal data in seconds.
               </Typography>
-              <ButtonInput />
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <ChooseFileInput />
+
+                <RedactionCustomisation
+                  setLevelOfRedaction={setLevelOfRedaction}
+                  specialInstructions={specialInstructions}
+                  setSpecialInstructions={setSpecialInstructions}
+                  specialCustomisationModal={specialCustomisationModal}
+                  setSpecialCustomisationModal={setSpecialCustomisationModal}
+                />
+                <UploadSection />
+              </Box>
               <ErrorBlock />
 
-              <UploadSection />
               {/* Drag and Drop Area */}
               <Box
                 sx={{
@@ -389,11 +400,27 @@ const UploadComponent = () => {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
               >
-                <Stack spacing={2} alignItems="center">
-                  <ButtonInput />
-                  <ErrorBlock />
-                  <UploadSection />
-                </Stack>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <ChooseFileInput />
+
+                <RedactionCustomisation
+                  setLevelOfRedaction={setLevelOfRedaction}
+                  specialInstructions={specialInstructions}
+                  setSpecialInstructions={setSpecialInstructions}
+                  specialCustomisationModal={specialCustomisationModal}
+                  setSpecialCustomisationModal={setSpecialCustomisationModal}
+                />
+                <UploadSection />
+              </Box>
               </Box>
               <Stack
                 direction={{ xs: "column", md: "row" }}
