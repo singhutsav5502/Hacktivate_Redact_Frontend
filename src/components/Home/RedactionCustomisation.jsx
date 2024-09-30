@@ -20,8 +20,8 @@ const RedactionCustomisation = ({
 
   const theme = useTheme();
   const redactionLevels = {
-    low: ["low"],
-    medium: ["low", "medium"],
+    low: ["high"],
+    medium: ["high", "medium"],
     high: ["low", "medium", "high"],
   };
 
