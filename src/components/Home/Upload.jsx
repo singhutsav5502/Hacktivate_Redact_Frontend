@@ -157,11 +157,9 @@ const UploadComponent = () => {
         );
       case type.includes("msword") || url.endsWith(".docx"):
         return (
-          <iframe
-            src={`https://docs.google.com/gview?url=${url}&embedded=true`}
-            title="DOCX Preview"
-            style={{ width: "100%", height: "500px" }}
-          />
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            View DOCX File
+          </a>
         );
       case type.includes("vnd.openxmlformats-officedocument.spreadsheetml.sheet") || url.endsWith(".xlsx"):
         return (
@@ -181,7 +179,6 @@ const UploadComponent = () => {
         return <Typography variant="body1">No preview available</Typography>;
     }
   };
-  
   const ChooseFileInput = () => {
     return (
       <>
