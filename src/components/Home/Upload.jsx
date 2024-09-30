@@ -155,10 +155,33 @@ const UploadComponent = () => {
             }}
           />
         );
+      case type.includes("msword") || url.endsWith(".docx"):
+        return (
+          <iframe
+            src={`https://docs.google.com/gview?url=${url}&embedded=true`}
+            title="DOCX Preview"
+            style={{ width: "100%", height: "500px" }}
+          />
+        );
+      case type.includes("vnd.openxmlformats-officedocument.spreadsheetml.sheet") || url.endsWith(".xlsx"):
+        return (
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            View XLSX File
+          </a>
+        );
+      case type.includes("text/plain") || url.endsWith(".txt"):
+        return (
+          <iframe
+            src={url}
+            title="Text Preview"
+            style={{ width: "100%", height: "500px" }}
+          />
+        );
       default:
         return <Typography variant="body1">No preview available</Typography>;
     }
   };
+  
   const ChooseFileInput = () => {
     return (
       <>
