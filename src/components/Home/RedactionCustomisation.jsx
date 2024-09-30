@@ -16,7 +16,7 @@ const RedactionCustomisation = ({
   setSpecialInstructions,
   specialInstructions,
 }) => {
-  const [redactionSliderLevel, setRedactionSliderLevel] = useState(2);
+  const [redactionSliderLevel, setRedactionSliderLevel] = useState(0);
 
   const theme = useTheme();
   const redactionLevels = {
